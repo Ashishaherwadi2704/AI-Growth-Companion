@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Growth Companion</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+<div class="app-container">
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+                <span>AI Growth Companion</span>
+            </div>
+            <div class="header-actions">
+                <button id="history-btn" class="btn btn-secondary" onclick="toggleHistory()">
+                    <i class="fas fa-history"></i>
+                    <span>History</span>
+                </button>
+                <a href="/logout" class="btn btn-outline">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <!-- Chat Area -->
+        <main class="chat-section">
+            <div class="chat-container">
+                <div id="chat-box" class="chat-box">
+                    <div class="welcome-message">
+                        <i class="fas fa-robot"></i>
+                        <h2>Welcome to your AI Growth Companion!</h2>
+                        <p>I'm here to help you grow with advice on productivity, habits, and motivation. What would you like to work on today?</p>
+                    </div>
+                </div>
+
+                <div class="input-area">
+                    <div class="input-container">
+                        <input 
+                            id="user-input" 
+                            type="text" 
+                            placeholder="Type your message..." 
+                            maxlength="1000"
+                            onkeypress="handleKeyPress(event)"
+                        />
+                        <button id="send-btn" onclick="sendMessage()" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    <div class="input-actions">
+                        <button onclick="clearChat()" class="btn btn-small btn-outline">
+                            <i class="fas fa-trash"></i>
+                            Clear Chat
+                        </button>
+                        <span class="char-count">
+                            <span id="char-count">0</span>/1000
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- History Sidebar -->
+        <aside id="history-sidebar" class="history-sidebar hidden">
+            <div class="history-header">
+                <h3>Chat History</h3>
+                <button onclick="toggleHistory()" class="btn btn-small btn-outline">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="history-content">
+                <div id="history-list" class="history-list">
+                    <div class="loading">Loading history...</div>
+                </div>
+                <div class="history-pagination">
+                    <button id="prev-page" onclick="loadHistoryPage(-1)" class="btn btn-small btn-outline" disabled>
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <span id="page-info">Page 1</span>
+                    <button id="next-page" onclick="loadHistoryPage(1)" class="btn btn-small btn-outline" disabled>
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </aside>
+    </div>
+</div>
+
+<!-- Toast Notifications -->
+<div id="toast-container" class="toast-container"></div>
+
+<script src="/static/script.js"></script>
+</body>
+</html>

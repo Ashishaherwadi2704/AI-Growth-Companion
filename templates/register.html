@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - AI Growth Companion</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+        
+        .auth-container {
+            background: var(--bg-primary);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .auth-header .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .auth-header .logo i {
+            font-size: 2rem;
+        }
+        
+        .auth-header h1 {
+            font-size: 1.75rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .auth-header p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            font-size: 0.95rem;
+            outline: none;
+            transition: var(--transition);
+            background: var(--bg-primary);
+        }
+        
+        .form-group input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+        
+        .form-group input::placeholder {
+            color: var(--text-secondary);
+        }
+        
+        .form-group input.invalid {
+            border-color: var(--error-color);
+        }
+        
+        .form-group .requirements {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+        
+        .form-group .error-text {
+            font-size: 0.75rem;
+            color: var(--error-color);
+            margin-top: 0.25rem;
+            display: none;
+        }
+        
+        .form-group .error-text.show {
+            display: block;
+        }
+        
+        .password-strength {
+            margin-top: 0.5rem;
+        }
+        
+        .strength-bar {
+            height: 4px;
+            background: var(--bg-tertiary);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 0.25rem;
+        }
+        
+        .strength-fill {
+            height: 100%;
+            transition: var(--transition);
+            border-radius: 2px;
+        }
+        
+        .strength-fill.weak {
+            background: var(--error-color);
+            width: 33%;
+        }
+        
+        .strength-fill.medium {
+            background: var(--warning-color);
+            width: 66%;
+        }
+        
+        .strength-fill.strong {
+            background: var(--success-color);
+            width: 100%;
+        }
+        
+        .strength-text {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+        
+        .btn-register {
+            width: 100%;
+            padding: 0.875rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--radius-lg);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 1.5rem;
+        }
+        
+        .btn-register:hover:not(:disabled) {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-register:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .auth-footer {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .auth-footer p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+        
+        .auth-footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .auth-footer a:hover {
+            color: var(--primary-hover);
+            text-decoration: underline;
+        }
+        
+        .error-message {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--error-color);
+            color: var(--error-color);
+            padding: 0.75rem;
+            border-radius: var(--radius-md);
+            margin-bottom: 1.5rem;
+            font-size: 0.875rem;
+            text-align: center;
+        }
+        
+        .success-message {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--success-color);
+            color: var(--success-color);
+            padding: 0.75rem;
+            border-radius: var(--radius-md);
+            margin-bottom: 1.5rem;
+            font-size: 0.875rem;
+            text-align: center;
+        }
+        
+        .input-icon {
+            position: relative;
+        }
+        
+        .input-icon i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+        
+        .input-icon input {
+            padding-left: 2.75rem;
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0.25rem;
+        }
+        
+        .password-toggle:hover {
+            color: var(--primary-color);
+        }
+        
+        .input-icon input.with-toggle {
+            padding-right: 2.75rem;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .auth-container {
+            animation: fadeInUp 0.5s ease-out;
+        }
+        
+        .validation-checklist {
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+        }
+        
+        .validation-checklist div {
+            color: var(--text-secondary);
+            margin-bottom: 0.25rem;
+        }
+        
+        .validation-checklist div.valid {
+            color: var(--success-color);
+        }
+        
+        .validation-checklist div.invalid {
+            color: var(--error-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-header">
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+                <span>AI Growth Companion</span>
+            </div>
+            <h1>Create Account</h1>
+            <p>Start your personal growth journey today</p>
+        </div>
+        
+        {% if error %}
+        <div class="error-message">
+            <i class="fas fa-exclamation-circle"></i>
+            {{ error }}
+        </div>
+        {% endif %}
+        
+        {% if success %}
+        <div class="success-message">
+            <i class="fas fa-check-circle"></i>
+            {{ success }}
+        </div>
+        {% endif %}
+        
+        <form method="POST" onsubmit="return validateForm()">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <div class="input-icon">
+                    <i class="fas fa-user"></i>
+                    <input 
+                        type="text" 
+                        id="username" 
+                        name="username" 
+                        placeholder="Choose a username"
+                        required
+                        autocomplete="username"
+                        oninput="validateUsername()"
+                    />
+                </div>
+                <div class="requirements">
+                    Must be at least 3 characters, letters, numbers, and underscores only
+                </div>
+                <div class="error-text" id="username-error"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <div class="input-icon">
+                    <i class="fas fa-lock"></i>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        placeholder="Create a password"
+                        class="with-toggle"
+                        required
+                        autocomplete="new-password"
+                        oninput="validatePassword()"
+                    />
+                    <button type="button" class="password-toggle" onclick="togglePassword()">
+                        <i class="fas fa-eye" id="password-icon"></i>
+                    </button>
+                </div>
+                <div class="requirements">
+                    Must be at least 6 characters
+                </div>
+                <div class="password-strength">
+                    <div class="strength-bar">
+                        <div class="strength-fill" id="strength-fill"></div>
+                    </div>
+                    <div class="strength-text" id="strength-text">Password strength</div>
+                </div>
+                <div class="error-text" id="password-error"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="confirm-password">Confirm Password</label>
+                <div class="input-icon">
+                    <i class="fas fa-lock"></i>
+                    <input 
+                        type="password" 
+                        id="confirm-password" 
+                        placeholder="Confirm your password"
+                        class="with-toggle"
+                        required
+                        autocomplete="new-password"
+                        oninput="validatePasswordMatch()"
+                    />
+                    <button type="button" class="password-toggle" onclick="toggleConfirmPassword()">
+                        <i class="fas fa-eye" id="confirm-icon"></i>
+                    </button>
+                </div>
+                <div class="error-text" id="confirm-error"></div>
+            </div>
+            
+            <button type="submit" class="btn-register" id="submit-btn">
+                <i class="fas fa-user-plus"></i>
+                Create Account
+            </button>
+        </form>
+        
+        <div class="auth-footer">
+            <p>Already have an account? <a href="/login">Sign in here</a></p>
+        </div>
+    </div>
+    
+    <script>
+        let usernameValid = false;
+        let passwordValid = false;
+        let passwordMatchValid = false;
+        
+        function validateUsername() {
+            const username = document.getElementById('username').value.trim();
+            const errorElement = document.getElementById('username-error');
+            const inputElement = document.getElementById('username');
+            
+            if (username.length < 3) {
+                showError('username-error', 'Username must be at least 3 characters');
+                inputElement.classList.add('invalid');
+                usernameValid = false;
+            } else if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+                showError('username-error', 'Only letters, numbers, and underscores allowed');
+                inputElement.classList.add('invalid');
+                usernameValid = false;
+            } else {
+                hideError('username-error');
+                inputElement.classList.remove('invalid');
+                usernameValid = true;
+            }
+            
+            updateSubmitButton();
+        }
+        
+        function validatePassword() {
+            const password = document.getElementById('password').value;
+            const errorElement = document.getElementById('password-error');
+            const inputElement = document.getElementById('password');
+            
+            if (password.length < 6) {
+                showError('password-error', 'Password must be at least 6 characters');
+                inputElement.classList.add('invalid');
+                passwordValid = false;
+            } else {
+                hideError('password-error');
+                inputElement.classList.remove('invalid');
+                passwordValid = true;
+            }
+            
+            updatePasswordStrength(password);
+            validatePasswordMatch();
+            updateSubmitButton();
+        }
+        
+        function validatePasswordMatch() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            const errorElement = document.getElementById('confirm-error');
+            const inputElement = document.getElementById('confirm-password');
+            
+            if (confirmPassword && password !== confirmPassword) {
+                showError('confirm-error', 'Passwords do not match');
+                inputElement.classList.add('invalid');
+                passwordMatchValid = false;
+            } else if (confirmPassword && password === confirmPassword) {
+                hideError('confirm-error');
+                inputElement.classList.remove('invalid');
+                passwordMatchValid = true;
+            } else {
+                hideError('confirm-error');
+                inputElement.classList.remove('invalid');
+                passwordMatchValid = false;
+            }
+            
+            updateSubmitButton();
+        }
+        
+        function updatePasswordStrength(password) {
+            const strengthFill = document.getElementById('strength-fill');
+            const strengthText = document.getElementById('strength-text');
+            
+            let strength = 0;
+            if (password.length >= 8) strength++;
+            if (password.length >= 12) strength++;
+            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+            if (/[0-9]/.test(password)) strength++;
+            if (/[^a-zA-Z0-9]/.test(password)) strength++;
+            
+            strengthFill.className = 'strength-fill';
+            
+            if (strength <= 2) {
+                strengthFill.classList.add('weak');
+                strengthText.textContent = 'Weak password';
+                strengthText.style.color = 'var(--error-color)';
+            } else if (strength <= 3) {
+                strengthFill.classList.add('medium');
+                strengthText.textContent = 'Medium strength';
+                strengthText.style.color = 'var(--warning-color)';
+            } else {
+                strengthFill.classList.add('strong');
+                strengthText.textContent = 'Strong password';
+                strengthText.style.color = 'var(--success-color)';
+            }
+        }
+        
+        function updateSubmitButton() {
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.disabled = !(usernameValid && passwordValid && passwordMatchValid);
+        }
+        
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const passwordIcon = document.getElementById('password-icon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                passwordIcon.className = 'fas fa-eye-slash';
+            } else {
+                passwordInput.type = 'password';
+                passwordIcon.className = 'fas fa-eye';
+            }
+        }
+        
+        function toggleConfirmPassword() {
+            const confirmInput = document.getElementById('confirm-password');
+            const confirmIcon = document.getElementById('confirm-icon');
+            
+            if (confirmInput.type === 'password') {
+                confirmInput.type = 'text';
+                confirmIcon.className = 'fas fa-eye-slash';
+            } else {
+                confirmInput.type = 'password';
+                confirmIcon.className = 'fas fa-eye';
+            }
+        }
+        
+        function showError(elementId, message) {
+            const errorElement = document.getElementById(elementId);
+            errorElement.textContent = message;
+            errorElement.classList.add('show');
+        }
+        
+        function hideError(elementId) {
+            const errorElement = document.getElementById(elementId);
+            errorElement.classList.remove('show');
+        }
+        
+        function validateForm() {
+            validateUsername();
+            validatePassword();
+            validatePasswordMatch();
+            
+            if (!usernameValid || !passwordValid || !passwordMatchValid) {
+                return false;
+            }
+            
+            return true;
+        }
+        
+        // Focus on username field
+        document.getElementById('username').focus();
+        
+        // Add enter key support for form fields
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const form = document.querySelector('form');
+                if (form) {
+                    form.dispatchEvent(new Event('submit'));
+                }
+            }
+        });
+    </script>
+</body>
+</html>
