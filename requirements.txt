@@ -2,8 +2,6 @@
 Flask==2.3.3
 Flask-Login==0.6.3
 
-# Database
-sqlite3
 
 # Security
 bcrypt==4.0.1
